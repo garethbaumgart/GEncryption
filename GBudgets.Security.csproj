@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>GEncryption</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Gareth Baumgart</Authors>
+    <PackageTags></PackageTags>
+    <Description>
+      A library that encrypts and decrypts cyphers.
+    </Description>
+    <RepositoryUrl>https://github.com/garethbaumgart/GEncryption</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>
