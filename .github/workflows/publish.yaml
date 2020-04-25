@@ -1,4 +1,4 @@
-name: Run .netcore tests
+name: Publish to Github packages
 
 on:
   push:
@@ -31,5 +31,5 @@ jobs:
       run: dotnet pack --no-build --configuration Release -o artifact
 
     - name: Publish Nuget package
-      run: dotnet nuget push ./artifact/*.nupkg -k {{GITHUB_TOKEN}} -s https://nuget.pkg.github.com/garethbaumgart/index.json garethbaumgart/asdfsd --skip-duplicate
+      run: dotnet nuget push ./artifact/*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/garethbaumgart/index.json garethbaumgart/asdfsd --skip-duplicate
     
