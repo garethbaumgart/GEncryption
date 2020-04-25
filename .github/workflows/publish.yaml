@@ -1,9 +1,7 @@
-name: .NET Core
+name: Publish to Github packages
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 jobs:
@@ -12,21 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
         source-url: https://nuget.pkg.github.com/garethbaumgart/index.json
-      env:  
-        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
     - name: Install dependencies
       run: dotnet restore
+    
     - name: Build
       run: dotnet build --configuration Release --no-restore
+    
     - name: Test
       run: dotnet test --no-restore --verbosity normal
-    - name: Pack Nuget Package
-      run: dotnet pack --no-build --configuration Release
-    - name: Publish NuGet Package
-      run: dotnet nuget push *.nupkg ${{secrets.GITHUB_TOKEN}}
+    
+    - name: Pack Nuget package	
+      run: dotnet pack --no-build --configuration Release -o artifact
+
+    - name: Publish Nuget package
+      run: dotnet nuget push ./artifact/*.nupkg --skip-duplicate
+    
