@@ -31,7 +31,7 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
     
     - name: Pack Nuget package	
-      run: dotnet1 pack --no-build --configuration Release -o artifact
+      run: dotnet pack --no-build --configuration Release -o artifact
 
     - name: Publish Nuget package
       run: dotnet nuget push ./artifact/*.nupkg --skip-duplicate
