@@ -9,6 +9,9 @@ namespace GEncryption
     {
         public string Encrypt(string toEncrypt, string encryptionKey, string salt)
         {
+            ThrowOnBlank(nameof(encryptionKey), encryptionKey);
+            ThrowOnBlank(nameof(salt), salt);
+            
             byte[] toEncryptBytes = Encoding.Unicode.GetBytes(toEncrypt);
             byte[] saltBytes = Encoding.Unicode.GetBytes(salt);
             using (Aes encryptor = Aes.Create())
@@ -28,8 +31,12 @@ namespace GEncryption
             }
             return toEncrypt;
         }
+        
         public string Decrypt(string toDecrypt, string encryptionKey, string salt)
         {
+            ThrowOnBlank(nameof(encryptionKey), encryptionKey);
+            ThrowOnBlank(nameof(salt), salt);
+
             toDecrypt = toDecrypt.Replace(" ", "+");
             byte[] saltBytes = Encoding.Unicode.GetBytes(salt);
             byte[] toDecryptBytes = Convert.FromBase64String(toDecrypt);
@@ -49,6 +56,12 @@ namespace GEncryption
                 }
             }
             return toDecrypt;
+        }
+
+        private void ThrowOnBlank(string name, string value)
+        {
+            if(string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException($"A non empty value is required for parameter {name}.");
         }
     }
 }
